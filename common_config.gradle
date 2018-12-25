@@ -24,8 +24,8 @@ ext {
 
             butterknife   : "8.8.1",
 
-            okhttp        : "3.10.0",
-            retrofit2     : "2.4.0",
+            okhttp        : "3.12.0",
+            retrofit2     : "2.5.0",
 
             kotlin        : "1.2.71",
             anko          : "0.10.5",
