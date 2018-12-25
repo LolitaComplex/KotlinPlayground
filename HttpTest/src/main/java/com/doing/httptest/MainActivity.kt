@@ -2,7 +2,6 @@ package com.doing.httptest
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.JsonReader
 import android.util.Log
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
@@ -62,9 +61,7 @@ class MainActivity : AppCompatActivity() {
                     Log.e(TAG, "网络错误", e)
                 }
 
-                override fun onResponse(call: Call, response: Response) {
-//                    Log.d(TAG, response.body()?.string())
-                }
+                override fun onResponse(call: Call, response: Response) {}
             })
         }
 
@@ -77,9 +74,7 @@ class MainActivity : AppCompatActivity() {
                         .build()
                 ).build()
             mOkHttpClient.newCall(request).enqueue(object : Callback{
-                override fun onResponse(call: Call, response: Response) {
-
-                }
+                override fun onResponse(call: Call, response: Response) {}
 
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e(TAG, "网络错误 Doing", e)
@@ -116,8 +111,28 @@ class MainActivity : AppCompatActivity() {
                     Log.e(TAG, "网络错误 PostText", e)
                 }
 
-                override fun onResponse(call: Call, response: Response) {
+                override fun onResponse(call: Call, response: Response) {}
+            })
+        }
+
+        mBtnPostMultipart.setOnClickListener {
+            val request = Request.Builder().url(HOST + "method/requestPostMultipart")
+                .post(MultipartBody.Builder()
+                    .addFormDataPart("Test", "测试文本")
+                    .addFormDataPart("Value", "Archer")
+                    .addPart(FormBody.Builder()
+                        .add("username", "布鲁马")
+                        .add("password", "123456789")
+                        .build())
+                    .build())
+                .build()
+
+            mOkHttpClient.newCall(request).enqueue(object  : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.e(TAG, "网络错误 Multipart", e)
                 }
+
+                override fun onResponse(call: Call, response: Response) {}
             })
         }
     }
