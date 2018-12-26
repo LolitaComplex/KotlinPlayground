@@ -3,6 +3,7 @@ package com.doing.httptest
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.doing.httptest.manager.HttpDownloadManager
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import kotlinx.android.synthetic.main.activity_main.*
@@ -65,6 +66,23 @@ class MainActivity : AppCompatActivity() {
             })
         }
 
+        mBtnGetPic.setOnClickListener {
+            val request = Request.Builder().url(HOST + "static/timg.jpg").get().build()
+            mOkHttpClient.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.e(TAG, "网络错误 getPic", e)
+                }
+
+                override fun onResponse(call: Call, response: Response) {}
+            })
+        }
+
+        mBtnDownload.setOnClickListener {
+            HttpDownloadManager.INSTANCE.download(HOST + "media/test.mp4") { info ->
+                Log.d(TAG, "${info.mDownloadProgress}")
+            }
+        }
+
         mBtnPostForm.setOnClickListener {
             val request = Request.Builder().url(HOST + "method/requestPostForm")
                 .post(
@@ -73,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                         .add("password", "123456789")
                         .build()
                 ).build()
-            mOkHttpClient.newCall(request).enqueue(object : Callback{
+            mOkHttpClient.newCall(request).enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {}
 
                 override fun onFailure(call: Call, e: IOException) {
@@ -92,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                 .post(RequestBody.create(MediaType.parse("application/json"), jsonObj.toString()))
                 .build()
 
-            mOkHttpClient.newCall(request).enqueue(object : Callback{
+            mOkHttpClient.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e(TAG, "网络错误 JsonDoing", e)
                 }
@@ -106,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                 .post(RequestBody.create(MediaType.parse("text/plain"), "这是我一次传输的文字"))
                 .build()
 
-            mOkHttpClient.newCall(request).enqueue(object : Callback{
+            mOkHttpClient.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e(TAG, "网络错误 PostText", e)
                 }
@@ -116,18 +134,34 @@ class MainActivity : AppCompatActivity() {
         }
 
         mBtnPostMultipart.setOnClickListener {
+            val jsonObj = JSONObject()
+            jsonObj.put("Type", "Json")
+            jsonObj.put("Content", "Http熟悉中")
+
             val request = Request.Builder().url(HOST + "method/requestPostMultipart")
-                .post(MultipartBody.Builder()
-                    .addFormDataPart("Test", "测试文本")
-                    .addFormDataPart("Value", "Archer")
-                    .addPart(FormBody.Builder()
-                        .add("username", "布鲁马")
-                        .add("password", "123456789")
-                        .build())
-                    .build())
+                .post(
+                    MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("Test", "测试文本")
+                        .addFormDataPart("file", "Archer.jpg",
+                            FormBody.Builder()
+                            .add("username", "布鲁马")
+                            .add("password", "123456789")
+                            .build())
+                        .addPart(
+                            FormBody.Builder()
+                                .add("username", "布鲁马")
+                                .add("password", "123456789")
+                                .build())
+                        .addPart(
+                            Headers.of("a", "b", "c", "e"),
+                            RequestBody.create(MediaType.parse("application/json"), jsonObj.toString())
+                        )
+                        .build()
+                )
                 .build()
 
-            mOkHttpClient.newCall(request).enqueue(object  : Callback{
+            mOkHttpClient.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e(TAG, "网络错误 Multipart", e)
                 }

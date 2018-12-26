@@ -34,6 +34,10 @@ dependencies {
     implementation commonDependencies.ankoLayoutSdk
     implementation commonDependencies.okhttp
     implementation commonDependencies.okhttpLogging
+    implementation commonDependencies.rxPermission
+    implementation commonDependencies.rxjava
+    implementation commonDependencies.rxKotlin
+    implementation commonDependencies.rxAndroid
 
     implementation('com.github.ihsanbal:LoggingInterceptor:3.0.0') {
         exclude group: 'org.json', module: 'json'
