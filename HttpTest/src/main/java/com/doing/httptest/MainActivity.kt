@@ -55,7 +55,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mBtnGet.setOnClickListener {
-            val request = Request.Builder().url(HOST + "method/requestGet").get().build()
+            val request = Request.Builder()
+                .url(HOST + "method/requestGet")
+                .addHeader("a", "b")
+                .header("c", "d")
+                .get().build()
             val call = mOkHttpClient.newCall(request)
             call.enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {

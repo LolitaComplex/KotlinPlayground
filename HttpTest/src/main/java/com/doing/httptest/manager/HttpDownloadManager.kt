@@ -14,7 +14,6 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.internal.platform.Platform
-import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.util.concurrent.TimeUnit
@@ -23,7 +22,7 @@ class HttpDownloadManager private constructor() {
 
     companion object {
         val INSTANCE by lazy { HttpDownloadManager() }
-        private const val TAG = "HttpDownloadManager"
+        const val TAG = "HttpDownloadManager"
     }
 
     private val mOkHttpClient: OkHttpClient
@@ -79,42 +78,26 @@ class HttpDownloadManager private constructor() {
     inner class DownloadOnSubscribe internal constructor(val info: DownloadInfo) : FlowableOnSubscribe<DownloadInfo> {
         override fun subscribe(emitter: FlowableEmitter<DownloadInfo>) {
             val request = Request.Builder().url(info.mUrl)
-                .addHeader("Range", "bytes=0-${info.mFileLength}")
+                .get()
+                .header("Range", "bytes=0-${info.mFileLength}")
                 .build()
-            var bufferOut: BufferedOutputStream? = null
             try {
                 val response = mOkHttpClient.newCall(request).execute()
-                val inputStream = response.body()?.byteStream()
 
-                emitter.onNext(info)
-                bufferOut = BufferedOutputStream(FileOutputStream(info.mDownloadFile))
-
-
-                inputStream?.apply {
-                    val byteBuf = ByteArray(1024 * 1024)
-                    var len = 0; var subLen = 0
-
-                    this.use {
-                        while (true) {
-                            len = it.read(byteBuf)
-                        }
+                response.body()?.byteStream()?.apply {
+                    FileOutputStream(info.mDownloadFile).buffered(1024 * 8).use {
+                        this.buffered(1024 * 8)
+                            .copyTo(it,1024  * 8) { subLen ->
+                                info.mDownloadProgress = subLen / info.mFileLength.toFloat()
+                                emitter.onNext(info)
+                            }
+                        emitter.onComplete()
                     }
-
-//                    while (read(byteBuf).apply { len = this } != -1) {
-//                        bufferOut.write(byteBuf, 0, len)
-//                        subLen += len
-//                        info.mDownloadProgress = subLen / info.mFileLength.toFloat()
-//                        emitter.onNext(info)
-//                        bufferOut.flush()
-//                    }
-                    emitter.onComplete()
                 }
 
             } catch (e: Exception) {
                 emitter.onError(e)
                 Log.e(TAG, "下载异常", e)
-            } finally {
-                IOUtils.close(bufferOut)
             }
         }
     }
@@ -128,16 +111,17 @@ class HttpDownloadManager private constructor() {
     }
 
     private fun getContentLength(url: String): Long {
-        val request = Request.Builder().url(url).head().build()
+        val request = Request.Builder().url(url)
+            .header("RANGE", "bytes=1-2")
+            .get().build()
         val response = mOkHttpClient.newCall(request).execute()
-        return response.header("Content-Length")?.toLong() ?: 0L
+        val contentLength = response.header("Content-Length")?.toLong() ?: 0L
+        response.close()
+        return contentLength
     }
 
     private fun createLocalFile(info: DownloadInfo): DownloadInfo {
         val file = File(mExternalDir, info.mFileName)
-//        if (!file.exists()) {
-//            file.createNewFile()
-//        }
         info.mDownloadFile = file
         return info
     }
