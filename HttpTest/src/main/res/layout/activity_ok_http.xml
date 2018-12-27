@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".OkHttpActivity">
+
+    <Button
+        android:id="@+id/mBtnGet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GET"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/mBtnGetPic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GET PIC"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/mBtnDownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GET DOWNLOAD"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/mBtnPostForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PostForm"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/mBtnPostJson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PostJson"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/mBtnPostText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PostText"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/mBtnPostMultipart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PostMultipart"
+        android:textStyle="bold"/>
+
+
+
+</LinearLayout>

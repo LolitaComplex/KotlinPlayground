@@ -38,6 +38,9 @@ dependencies {
     implementation commonDependencies.rxjava
     implementation commonDependencies.rxKotlin
     implementation commonDependencies.rxAndroid
+    implementation commonDependencies.retrofit
+    implementation commonDependencies.retrofitGson
+    implementation commonDependencies.retrofitRx
 
     implementation('com.github.ihsanbal:LoggingInterceptor:3.0.0') {
         exclude group: 'org.json', module: 'json'
