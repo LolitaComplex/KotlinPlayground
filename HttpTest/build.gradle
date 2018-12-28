@@ -40,6 +40,7 @@ dependencies {
     implementation commonDependencies.rxAndroid
     implementation commonDependencies.retrofit
     implementation commonDependencies.retrofitGson
+    implementation commonDependencies.retrofitScalars
     implementation commonDependencies.retrofitRx
 
     implementation('com.github.ihsanbal:LoggingInterceptor:3.0.0') {

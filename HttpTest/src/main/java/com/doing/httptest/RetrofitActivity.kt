@@ -8,15 +8,15 @@ import com.doing.httptest.entity.BodyClass
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import kotlinx.android.synthetic.main.activity_retrofit.*
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Response
+import okhttp3.*
 import okhttp3.internal.platform.Platform
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 class RetrofitActivity : AppCompatActivity() {
 
@@ -38,6 +38,7 @@ class RetrofitActivity : AppCompatActivity() {
             .baseUrl(HOST)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
             .client(OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build())
@@ -50,45 +51,70 @@ class RetrofitActivity : AppCompatActivity() {
         val api = mRetrofit.create(Api::class.java)
 
         mBtnGet.setOnClickListener {
-            api.requestGet().enqueue(object: Callback{
-
-                override fun onFailure(call: Call, e: IOException) {
-                    Log.e(TAG, "网络错误 RequestGet", e)
+            api.requestGet().enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e(TAG, "网络错误 GET", t)
                 }
 
-                override fun onResponse(call: Call, response: Response) {}
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
+
             })
         }
 
         mBtnGetPic.setOnClickListener {
-            api.requestPic().enqueue(object: Callback{
-                override fun onFailure(call: Call, e: IOException) {
-                    Log.e(TAG, "网络错误 RequestPic", e)
+            api.requestPic().enqueue(object: Callback<ResponseBody>{
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e(TAG, "网络错误 RequestPic", t)
                 }
 
-                override fun onResponse(call: Call, response: Response) {}
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
             })
         }
 
         mBtnPostForm.setOnClickListener {
-            api.requestForm("布鲁马", "123456").enqueue(object: Callback{
-                override fun onFailure(call: Call, e: IOException) {
+            api.requestForm("布鲁马", "123456").enqueue(object: Callback<ResponseBody>{
+                override fun onFailure(call: Call<ResponseBody>, e: Throwable) {
                     Log.e(TAG, "网络错误 RequestForm", e)
                 }
 
-                override fun onResponse(call: Call, response: Response) {}
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
             })
         }
 
         mBtnPostJson.setOnClickListener {
-            api.requestJson(BodyClass("布鲁马", "123456")).enqueue(object : Callback{
-                override fun onFailure(call: Call, e: IOException) {
+            api.requestJson(BodyClass("布鲁马", "123456")).enqueue(object : Callback<ResponseBody>{
+                override fun onFailure(call: Call<ResponseBody>, e: Throwable) {
                     Log.e(TAG, "网络错误 Json", e)
                 }
 
-                override fun onResponse(call: Call, response: Response) {}
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
             })
         }
 
+        mBtnPostText.setOnClickListener {
+            api.requestText(RequestBody.create(MediaType.parse("text/plain"), "纯文本提交"))
+                .enqueue(object : Callback<ResponseBody> {
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e(TAG, "网络错误 Post Text", t)
+                    }
+
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
+                })
+        }
+
+        mBtnPostMultipart.setOnClickListener {
+            api.requestMultipartForm(
+                FormBody.Builder()
+                    .add("username", "布鲁马")
+                    .add("password", "123456789")
+                    .build()).enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    Log.e(TAG, "网络错误 Multipart", t)
+                }
+
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
+
+            })
+        }
     }
 }

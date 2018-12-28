@@ -8,6 +8,6 @@
         android:text="OkHttp" android:textStyle="bold"/>
 
     <Button android:id="@+id/mBtnRetrofit" android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="OkHttp" android:textStyle="bold"/>
+            android:text="Retrofit" android:textStyle="bold"/>
 
 </LinearLayout>
