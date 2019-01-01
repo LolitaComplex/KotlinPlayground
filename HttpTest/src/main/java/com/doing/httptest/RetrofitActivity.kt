@@ -17,6 +17,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.io.File
 
 class RetrofitActivity : AppCompatActivity() {
 
@@ -40,7 +41,17 @@ class RetrofitActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .client(OkHttpClient.Builder()
+                .cache(Cache(File(this.application.cacheDir, "HttpTestCache"), 10 * 1024 * 1024))
                 .addInterceptor(interceptor)
+//                .addInterceptor { chain ->
+//                    val request = chain.request().newBuilder()
+//                        .cacheControl(CacheControl.FORCE_NETWORK).build()
+//                    chain.proceed(request)
+//                }
+//                .addNetworkInterceptor {chain ->
+//                    val response = chain.proceed(chain.request())
+//                    response.newBuilder().addHeader("Cache-Control", "no-store").build()
+//                }
                 .build())
             .build()
     }

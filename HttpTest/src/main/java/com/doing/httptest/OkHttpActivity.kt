@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_ok_http.*
 import okhttp3.*
 import okhttp3.internal.platform.Platform
 import org.json.JSONObject
+import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -45,6 +46,7 @@ class OkHttpActivity : AppCompatActivity() {
             .connectTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
+            .cache(Cache(File(this.application.cacheDir, "HttpTestCache"), 10 * 1024 * 1024))
             .addNetworkInterceptor(interceptor)
 //            .addInterceptor(httpInterceptor)
             .build()
@@ -57,6 +59,7 @@ class OkHttpActivity : AppCompatActivity() {
         // GET
         mBtnGet.setOnClickListener {
             val request = Request.Builder()
+                .cacheControl(CacheControl.FORCE_NETWORK)
                 .url(HOST + "method/requestGet")
                 .get().build()
             val call = mOkHttpClient.newCall(request)
@@ -71,7 +74,7 @@ class OkHttpActivity : AppCompatActivity() {
 
         // GET Picture
         mBtnGetPic.setOnClickListener {
-            val request = Request.Builder().url(HOST + "static/timg.jpg").get().build()
+            val request = Request.Builder().url(HOST + "static/timg.jpg").get().cacheControl(CacheControl.FORCE_NETWORK).build()
             mOkHttpClient.newCall(request).enqueue(object : Callback{
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e(TAG, "网络错误 getPic", e)

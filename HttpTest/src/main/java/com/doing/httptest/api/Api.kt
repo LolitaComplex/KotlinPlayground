@@ -8,9 +8,12 @@ import retrofit2.http.*
 
 interface Api {
 
+//    @Headers("Cache-Control: max-age=20")
+//    @Headers("max-stale: " + Integer.MAX_VALUE)
     @GET("method/requestGet")
     fun requestGet(): Call<ResponseBody>
 
+    @Headers("Cache-Control: max-age=20")
     @GET("static/timg.jpg")
     fun requestPic(): Call<ResponseBody>
 
