@@ -57,5 +57,20 @@
         android:text="PostMultipart"
         android:textStyle="bold"/>
 
+    <Button
+        android:id="@+id/mBtnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LoginCookie"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/mBtnTestCookie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TestCookie"
+        android:textStyle="bold"/>
+
+
 
 </LinearLayout>

@@ -43,6 +43,11 @@ dependencies {
     implementation commonDependencies.retrofitScalars
     implementation commonDependencies.retrofitRx
 
+    api commonDependencies.room
+    api commonDependencies.roomRxJava
+    annotationProcessor commonDependencies.roomAnnotation
+    kapt commonDependencies.roomAnnotation
+
     implementation('com.github.ihsanbal:LoggingInterceptor:3.0.0') {
         exclude group: 'org.json', module: 'json'
     }

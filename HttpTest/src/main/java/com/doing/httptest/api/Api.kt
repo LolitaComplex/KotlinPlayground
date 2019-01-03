@@ -10,6 +10,8 @@ interface Api {
 
 //    @Headers("Cache-Control: max-age=20")
 //    @Headers("max-stale: " + Integer.MAX_VALUE)
+//    @Streaming
+    @Headers("Via: ", "Max-Forwards: 10")
     @GET("method/requestGet")
     fun requestGet(): Call<ResponseBody>
 
@@ -31,4 +33,12 @@ interface Api {
     @Multipart
     @POST("method/requestPostMultipart")
     fun requestMultipartForm(@Part("file\"; filename=\"Archer.jpg") body: RequestBody): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("method/loginCookie")
+    fun requestLoginCookie(@Field("username") username: String, @Field("password") password: String): Call<ResponseBody>
+
+
+    @GET("method/testCookie")
+    fun requestTestCookie(): Call<ResponseBody>
 }

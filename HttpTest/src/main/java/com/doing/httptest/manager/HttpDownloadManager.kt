@@ -50,6 +50,11 @@ class HttpDownloadManager private constructor() {
             .writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .addNetworkInterceptor(interceptor)
+            .addNetworkInterceptor {chain ->
+                val request = chain.request().newBuilder().removeHeader("Connection")
+                    .addHeader("Connection", "close").build()
+                chain.proceed(request)
+            }
             .build()
     }
 
@@ -113,7 +118,7 @@ class HttpDownloadManager private constructor() {
     private fun getContentLength(url: String): Long {
         val request = Request.Builder().url(url)
             .header("RANGE", "bytes=1-2")
-            .get().build()
+            .head().build()
         val response = mOkHttpClient.newCall(request).execute()
         val contentLength = response.header("Content-Length")?.toLong() ?: 0L
         response.close()
