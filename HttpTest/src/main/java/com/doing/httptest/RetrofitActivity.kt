@@ -5,11 +5,13 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.doing.httptest.api.Api
 import com.doing.httptest.entity.BodyClass
+import com.doing.httptest.manager.IOUtils
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import kotlinx.android.synthetic.main.activity_retrofit.*
 import okhttp3.*
 import okhttp3.internal.platform.Platform
+import okio.Buffer
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,12 +19,17 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.security.KeyStore
+import java.security.SecureRandom
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
 import java.util.*
+import javax.net.ssl.*
 
 class RetrofitActivity : AppCompatActivity() {
 
     companion object {
-        private const val HOST = "http://www.doing.com:8000/"
+        private const val HOST = "https://www.doing.com:8000/"
         private const val TAG = "RetrofitActivity"
     }
 
@@ -35,6 +42,24 @@ class RetrofitActivity : AppCompatActivity() {
             .response("DoingResponse")
             .build()
 
+        val certificateFactory = CertificateFactory.getInstance("X.509")
+        val keyStore = KeyStore.getInstance(KeyStore.getDefaultType())
+        keyStore.load(null)
+//        val bufferInput = Buffer().writeUtf8("省略...").inputStream()
+        val inputStream = this.resources.assets.open("server.cer")
+//        keyStore.setCertificateEntry("1", certificateFactory.generateCertificate(bufferInput))
+        keyStore.setCertificateEntry("1", certificateFactory.generateCertificate(inputStream))
+//        IOUtils.close(inputStream)
+
+        val trustManagerFactory = TrustManagerFactory
+            .getInstance(TrustManagerFactory.getDefaultAlgorithm())
+        trustManagerFactory.init(keyStore)
+
+        val sslContext = SSLContext.getInstance("TLS")
+        val trustManagers = trustManagerFactory.trustManagers
+        sslContext.init(null, trustManagers, SecureRandom())
+
+
         Retrofit.Builder()
             .baseUrl(HOST)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -46,6 +71,7 @@ class RetrofitActivity : AppCompatActivity() {
                 .cookieJar(object: CookieJar{
                     override fun saveFromResponse(url: HttpUrl, cookies: MutableList<Cookie>) {
                         Log.d(TAG, "SaveFromResponse ${Thread.currentThread().name}")
+                        Log.d(TAG, cookies.toString())
                     }
 
                     override fun loadForRequest(url: HttpUrl): MutableList<Cookie> {
@@ -53,6 +79,11 @@ class RetrofitActivity : AppCompatActivity() {
                         return Collections.emptyList()
                     }
                 })
+                .sslSocketFactory(sslContext.socketFactory, trustManagers[0] as X509TrustManager)
+                .hostnameVerifier { hostname, session ->
+                    Log.d(TAG, hostname)
+                    true
+                }
 //                .addInterceptor { chain ->
 //                    val request = chain.request().newBuilder()
 //                        .cacheControl(CacheControl.FORCE_NETWORK).build()
@@ -147,7 +178,7 @@ class RetrofitActivity : AppCompatActivity() {
 
         // Cookie
         mBtnLogin.setOnClickListener {
-            api.requestLoginCookie("布鲁马", "123456")
+            api.requestLoginCookie("doing", "123456")
                 .enqueue(object : Callback<ResponseBody>{
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         Log.e(TAG, "网络错误 LoginCookie", t)
@@ -166,5 +197,7 @@ class RetrofitActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {}
             })
         }
+
+
     }
 }
