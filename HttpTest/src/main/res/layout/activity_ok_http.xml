@@ -57,6 +57,11 @@
         android:text="PostMultipart"
         android:textStyle="bold"/>
 
-
+    <Button
+        android:id="@+id/mBtnGetBaidu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Baidu"
+        android:textStyle="bold"/>
 
 </LinearLayout>

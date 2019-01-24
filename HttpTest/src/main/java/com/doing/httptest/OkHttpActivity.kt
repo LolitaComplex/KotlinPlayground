@@ -63,6 +63,7 @@ class OkHttpActivity : AppCompatActivity() {
                 .url(HOST + "method/requestGet")
                 .get().build()
             val call = mOkHttpClient.newCall(request)
+            call.execute()
             call.enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e(TAG, "网络错误", e)
@@ -179,6 +180,20 @@ class OkHttpActivity : AppCompatActivity() {
                 }
 
                 override fun onResponse(call: Call, response: Response) {}
+            })
+
+        }
+
+        mBtnGetBaidu.setOnClickListener {
+            val request = Request.Builder().get().url("https://www.baidu.com").build()
+            mOkHttpClient.newCall(request).enqueue(object : Callback{
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.e(TAG, "网络错误 Baidu", e)
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+
+                }
             })
         }
     }

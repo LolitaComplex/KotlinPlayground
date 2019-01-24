@@ -27,6 +27,6 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-subprojects{
+subprojects {
     apply from: "${project.rootDir}/common_config.gradle"
 }

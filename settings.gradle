@@ -1,1 +1,1 @@
-include ':HttpTest'
+include ':HttpTest', ':PermisstionTest'

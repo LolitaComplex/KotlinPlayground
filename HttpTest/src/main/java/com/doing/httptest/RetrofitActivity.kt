@@ -11,7 +11,6 @@ import com.ihsanbal.logging.LoggingInterceptor
 import kotlinx.android.synthetic.main.activity_retrofit.*
 import okhttp3.*
 import okhttp3.internal.platform.Platform
-import okio.Buffer
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -22,9 +21,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.security.KeyStore
 import java.security.SecureRandom
 import java.security.cert.CertificateFactory
-import java.security.cert.X509Certificate
 import java.util.*
-import javax.net.ssl.*
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManagerFactory
+import javax.net.ssl.X509TrustManager
 
 class RetrofitActivity : AppCompatActivity() {
 
@@ -45,11 +45,9 @@ class RetrofitActivity : AppCompatActivity() {
         val certificateFactory = CertificateFactory.getInstance("X.509")
         val keyStore = KeyStore.getInstance(KeyStore.getDefaultType())
         keyStore.load(null)
-//        val bufferInput = Buffer().writeUtf8("省略...").inputStream()
         val inputStream = this.resources.assets.open("server.cer")
-//        keyStore.setCertificateEntry("1", certificateFactory.generateCertificate(bufferInput))
         keyStore.setCertificateEntry("1", certificateFactory.generateCertificate(inputStream))
-//        IOUtils.close(inputStream)
+        IOUtils.close(inputStream)
 
         val trustManagerFactory = TrustManagerFactory
             .getInstance(TrustManagerFactory.getDefaultAlgorithm())
@@ -66,6 +64,7 @@ class RetrofitActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .addConverterFactory(ScalarsConverterFactory.create())
             .client(OkHttpClient.Builder()
+                .protocols(Collections.unmodifiableList(Arrays.asList(Protocol.HTTP_1_1, Protocol.HTTP_2)))
 //                .cache(Cache(File(this.application.cacheDir, "HttpTestCache"), 10 * 1024 * 1024))
                 .addInterceptor(interceptor)
                 .cookieJar(object: CookieJar{
@@ -84,11 +83,16 @@ class RetrofitActivity : AppCompatActivity() {
                     Log.d(TAG, hostname)
                     true
                 }
-//                .addInterceptor { chain ->
-//                    val request = chain.request().newBuilder()
-//                        .cacheControl(CacheControl.FORCE_NETWORK).build()
-//                    chain.proceed(request)
-//                }
+                .addInterceptor { chain ->
+                    val request = chain.request().newBuilder()
+                        .cacheControl(CacheControl.FORCE_NETWORK).build()
+                    val connection = chain.connection()
+                    val socket = connection?.socket()
+                    val route = connection?.route()
+                    val socketAddress = route?.socketAddress()
+
+                    chain.proceed(request)
+                }
 //                .addNetworkInterceptor {chain ->
 //                    val response = chain.proceed(chain.request())
 //                    response.newBuilder().addHeader("Cache-Control", "no-store").build()
