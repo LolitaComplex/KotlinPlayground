@@ -7,13 +7,60 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <Button
+        android:id="@+id/mBtnPermissionDispatcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:text="PermissionsDispatcher"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+    />
+
+    <Button
+        android:id="@+id/mBtnRxPermission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RxPermission"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mBtnPermissionDispatcher"/>
+
+    <Button
+        android:id="@+id/mBtnEasyPermission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EasyPermission"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mBtnRxPermission"/>
+
+    <Button
+        android:id="@+id/mBtnAndPermission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AndPermission"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mBtnEasyPermission"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"/>
+
+    <Button
+        android:id="@+id/mBtnPermission4M"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Permission4M"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mBtnAndPermission"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"/>
 
 </android.support.constraint.ConstraintLayout>
