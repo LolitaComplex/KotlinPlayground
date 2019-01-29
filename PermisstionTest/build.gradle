@@ -34,6 +34,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation commonDependencies.kotlin
+    implementation commonDependencies.ankoV4
     implementation commonDependencies.supportAppcompat
     implementation commonDependencies.supportConstraint
     implementation commonDependencies.permissionDispatcher[0]
