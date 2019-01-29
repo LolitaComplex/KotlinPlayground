@@ -26,7 +26,7 @@ class RxPermissionActivity: AppCompatActivity() {
             .compose(rxPermissions.ensureEach(Manifest.permission.CAMERA))
             .subscribe { permission ->
                 when {
-                    permission.granted -> clickPdCamera()
+                    permission.granted -> clickRpCamera()
                     permission.shouldShowRequestPermissionRationale -> showCameraDialog()
                     else -> onCameraNeverAsk()
                 }
@@ -36,7 +36,7 @@ class RxPermissionActivity: AppCompatActivity() {
             .compose(rxPermissions.ensureEach(Manifest.permission.RECORD_AUDIO))
             .subscribe { permission ->
                 when {
-                    permission.granted -> clickPdMicrophone()
+                    permission.granted -> clickRpMicrophone()
                     permission.shouldShowRequestPermissionRationale -> showMicrophoneDialog()
                     else -> onMicrophoneNeverAsk()
                 }
@@ -46,7 +46,7 @@ class RxPermissionActivity: AppCompatActivity() {
             .compose(rxPermissions.ensureEach(Manifest.permission.WRITE_EXTERNAL_STORAGE))
             .subscribe{ permission ->
                 when {
-                    permission.granted -> clickPkSdcard()
+                    permission.granted -> clickRpSdcard()
                     permission.shouldShowRequestPermissionRationale -> showSdcardDialog()
                     else -> onSdcardNeverAsk()
                 }
@@ -80,21 +80,21 @@ class RxPermissionActivity: AppCompatActivity() {
         mTvPermissionAllOpen.visibility = if(flag) View.VISIBLE else View.GONE
     }
 
-    private fun clickPdCamera() {
+    private fun clickRpCamera() {
         mBtnRpCamera.setText("相机权限申请完成")
         mBtnRpCamera.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
         mBtnRpCamera.setTag(R.id.ClickTag, true)
         isShowPermissionFinish()
     }
 
-    private fun clickPdMicrophone() {
+    private fun clickRpMicrophone() {
         mBtnRpMicrophone.setText("麦克风权限申请完成")
         mBtnRpMicrophone.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
         mBtnRpMicrophone.setTag(R.id.ClickTag, true)
         isShowPermissionFinish()
     }
 
-    private fun clickPkSdcard() {
+    private fun clickRpSdcard() {
         mBtnRpSdcard.setText("sd卡文件读写权限申请完成")
         mBtnRpSdcard.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
         mBtnRpSdcard.setTag(R.id.ClickTag, true)
