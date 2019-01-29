@@ -13,8 +13,9 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        packagingOptions {
+            exclude 'META-INF/proguard/androidx-annotations.pro'
+        }
     }
 
     buildTypes {
@@ -29,17 +30,22 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     implementation commonDependencies.kotlin
     implementation commonDependencies.ankoV4
+    implementation commonDependencies.ankoV7
     implementation commonDependencies.supportAppcompat
     implementation commonDependencies.supportConstraint
-    implementation commonDependencies.permissionDispatcher[0]
+
+    def dispatcher = commonDependencies.permissionDispatcher
+    implementation dispatcher[0], dispatcher[1]
     kapt commonDependencies.permissionDispatcherApt
+
+    implementation commonDependencies.rxKotlin
+    implementation commonDependencies.rxjava
+    implementation commonDependencies.rxAndroid
     implementation commonDependencies.rxPermission
+    implementation commonDependencies.rxBinding
+
     implementation commonDependencies.easyPermission
     implementation commonDependencies.andPermission
     implementation commonDependencies.permission4M

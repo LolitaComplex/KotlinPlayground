@@ -14,5 +14,9 @@ class MainActivity : AppCompatActivity() {
         mBtnPermissionDispatcher.setOnClickListener {
             startActivity<PermissionDispatcherActivity>()
         }
+
+        mBtnRxPermission.setOnClickListener {
+            startActivity<RxPermissionActivity>()
+        }
     }
 }

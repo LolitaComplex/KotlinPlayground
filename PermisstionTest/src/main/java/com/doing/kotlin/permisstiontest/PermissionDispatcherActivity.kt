@@ -17,28 +17,71 @@ class PermissionDispatcherActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permission_dispatcher)
 
-        mBtnPdCamera.setOnClickListener(this::clickPdCamera)
-        mBtnPdMicrophone.setOnClickListener(this::clickPdMicrophone)
-        mBtnPdSdcard.setOnClickListener(this::clickPkSdcard)
+        mBtnPdCamera.setOnClickListener{
+            PermissionDispatcherActivityPermissionsDispatcher
+                .clickPdCameraWithCheck(this)
+        }
+
+        mBtnPdMicrophone.setOnClickListener {
+            PermissionDispatcherActivityPermissionsDispatcher
+                .clickPdMicrophoneWithCheck(this)
+        }
+
+        mBtnPdSdcard.setOnClickListener{
+            PermissionDispatcherActivityPermissionsDispatcher
+                .clickPkSdcardWithCheck(this)
+        }
+
+        mBtnPdCamera.setTag(R.id.ClickTag, false)
+        mBtnPdMicrophone.setTag(R.id.ClickTag, false)
+        mBtnPdSdcard.setTag(R.id.ClickTag, false)
+
+        mTvPermissionAllOpen.visibility = View.GONE
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)
-    fun clickPdCamera(view: View) {
+    fun clickPdCamera() {
         mBtnPdCamera.setText("相机权限申请完成")
         mBtnPdCamera.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        mBtnPdCamera.setTag(R.id.ClickTag, true)
+        isShowPermissionFinish()
     }
 
     @NeedsPermission(Manifest.permission.RECORD_AUDIO)
-    fun clickPdMicrophone(view: View) {
-        mBtnPdCamera.setText("麦克风权限申请完成")
-        mBtnPdCamera.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+    fun clickPdMicrophone() {
+        mBtnPdMicrophone.setText("麦克风权限申请完成")
+        mBtnPdMicrophone.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        mBtnPdMicrophone.setTag(R.id.ClickTag, true)
+        isShowPermissionFinish()
     }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-    fun clickPkSdcard(view: View) {
-        mBtnPdCamera.setText("sd卡文件读写权限申请完成")
-        mBtnPdCamera.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+    fun clickPkSdcard() {
+        mBtnPdSdcard.setText("sd卡文件读写权限申请完成")
+        mBtnPdSdcard.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+        mBtnPdSdcard.setTag(R.id.ClickTag, true)
+        isShowPermissionFinish()
     }
+
+    private fun isShowPermissionFinish() {
+        val getIsShowFlagFunc = {views: Array<View> ->
+            var result = false
+            for (view in views) {
+                val id = R.id.ClickTag
+                if (!(view.getTag(id) as Boolean)) {
+                    result = false
+                    break
+                }
+                result = true
+            }
+            result
+        }
+        val flag = getIsShowFlagFunc(arrayOf(mBtnPdCamera,
+            mBtnPdMicrophone, mBtnPdSdcard))
+        mTvPermissionAllOpen.visibility = if(flag) View.VISIBLE else View.GONE
+    }
+
+
 
     @OnShowRationale(Manifest.permission.CAMERA)
     fun showCameraDialog(request: PermissionRequest) {
@@ -51,7 +94,7 @@ class PermissionDispatcherActivity : AppCompatActivity(){
     }
 
     @OnShowRationale(Manifest.permission.RECORD_AUDIO)
-    fun showMicphoneDialog(request: PermissionRequest) {
+    fun showMicrophoneDialog(request: PermissionRequest) {
         val dialog = NormalDialog.newInstance(
             "申请相机权限", "使用此功能需要使用RECORD_AUDIO权限，下一步继续请求权限",
             "确定", "取消")
@@ -99,5 +142,11 @@ class PermissionDispatcherActivity : AppCompatActivity(){
     @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
     fun onSdcardNeverAsk() {
         Toast.makeText(this, "永远拒绝了sd卡读写权限", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        PermissionDispatcherActivityPermissionsDispatcher
+            .onRequestPermissionsResult(this, requestCode, grantResults)
     }
 }
