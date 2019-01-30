@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         mBtnEasyPermission.setOnClickListener {
-
+            startActivity<EasyPermissionActivity>()
         }
 
         mBtnAndPermission.setOnClickListener {

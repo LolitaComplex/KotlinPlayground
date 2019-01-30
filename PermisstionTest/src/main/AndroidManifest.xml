@@ -25,6 +25,7 @@
         <activity android:name=".PermissionDispatcherActivity"/>
         <activity android:name=".RxPermissionActivity"/>
         <activity android:name=".AndPermissionActivity"/>
+        <activity android:name=".EasyPermissionActivity"/>
     </application>
 
 </manifest>
