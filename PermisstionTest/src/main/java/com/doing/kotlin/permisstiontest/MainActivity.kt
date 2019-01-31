@@ -26,5 +26,9 @@ class MainActivity : AppCompatActivity() {
         mBtnAndPermission.setOnClickListener {
             startActivity<AndPermissionActivity>()
         }
+
+        mBtnPermission4M.setOnClickListener {
+            startActivity<Permissions4MActivity>()
+        }
     }
 }
