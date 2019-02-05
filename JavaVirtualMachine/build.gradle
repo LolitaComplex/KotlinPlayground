@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+android {
+    compileSdkVersion project.compileSdkVersion
+
+
+
+    defaultConfig {
+        applicationId "jvm.doing.com"
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = project.sourceCompatibility
+        targetCompatibility = project.targetCompatibility
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation commonDependencies.kotlin
+    implementation commonDependencies.ankoV4
+    implementation commonDependencies.ankoV7
+    implementation commonDependencies.supportAppcompat
+    implementation commonDependencies.supportConstraint
+}
