@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AppMainActivity">
+    tools:context=".ClassLoaderKtActivity">
 
     <Button
         android:id="@+id/mBtnAddMemory1"
@@ -52,5 +52,34 @@
         app:layout_constraintTop_toBottomOf="@id/mBtnAddMemory3"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <Button
+        android:id="@+id/mBtnClassloader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ClassLoader学习"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/mBtnAddMemory4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/mBtnProxy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Proxy学习"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mBtnClassloader"
+        android:layout_marginTop="8dp"
+    />
 
 </android.support.constraint.ConstraintLayout>

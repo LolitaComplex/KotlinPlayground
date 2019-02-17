@@ -16,6 +16,7 @@ import okhttp3.Request
 import okhttp3.internal.platform.Platform
 import java.io.File
 import java.io.FileOutputStream
+import java.io.FileReader
 import java.util.concurrent.TimeUnit
 
 class HttpDownloadManager private constructor() {
@@ -88,6 +89,7 @@ class HttpDownloadManager private constructor() {
                 .build()
             try {
                 val response = mOkHttpClient.newCall(request).execute()
+
 
                 response.body()?.byteStream()?.apply {
                     FileOutputStream(info.mDownloadFile).buffered(1024 * 8).use {

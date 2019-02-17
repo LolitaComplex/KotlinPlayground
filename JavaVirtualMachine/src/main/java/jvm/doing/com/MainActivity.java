@@ -1,8 +1,10 @@
 package jvm.doing.com;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import jvm.doing.com.proxy.Human;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+
         findViewById(R.id.mBtnAddMemory1).setOnClickListener(v -> {
 //            mAllocation1 = new byte[_1GB];
         });
@@ -41,8 +44,16 @@ public class MainActivity extends AppCompatActivity {
             mAllocation4 = new byte[_100MB];
         });
 
-        for (int i = 0; i < 30; i++) {
-            mCache.add(new byte[_10MB]);
-        }
+        findViewById(R.id.mBtnClassloader).setOnClickListener(v ->
+            startActivity(new Intent(this, ClassLoaderActivity.class)));
+
+
+        findViewById(R.id.mBtnProxy).setOnClickListener(v ->
+            startActivity(new Intent(this, ProxyActivity.class)));
+//        for (int i = 0; i < 30; i++) {
+//            mCache.add(new byte[_10MB]);
+//        }
+
+        Human.class.getInterfaces();
     }
 }
