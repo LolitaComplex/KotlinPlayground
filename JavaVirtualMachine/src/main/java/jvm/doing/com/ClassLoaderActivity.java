@@ -20,6 +20,7 @@ public class ClassLoaderActivity extends AppCompatActivity {
 
         ClassLoader classLoader = new ClassLoader() {
 
+
             @Override
             public Class<?> loadClass(String name) throws ClassNotFoundException {
                 try {
