@@ -1,11 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion project.compileSdkVersion
 
     defaultConfig {
-        applicationId "jvm.doing.com"
+        applicationId "com.doing.mediasdk"
         minSdkVersion project.minSdkVersion
         targetSdkVersion project.targetSdkVersion
         versionCode 1
@@ -21,10 +23,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility = project.sourceCompatibility
-        targetCompatibility = project.targetCompatibility
-    }
 
 }
 
@@ -35,4 +33,5 @@ dependencies {
     implementation commonDependencies.ankoV7
     implementation commonDependencies.supportAppcompat
     implementation commonDependencies.supportConstraint
+
 }

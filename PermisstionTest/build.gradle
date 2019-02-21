@@ -25,6 +25,11 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = project.sourceCompatibility
+        targetCompatibility = project.targetCompatibility
+    }
+
 }
 
 dependencies {
