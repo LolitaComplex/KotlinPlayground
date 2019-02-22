@@ -17,8 +17,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import org.jetbrains.anko.displayMetrics
 
-// TODO 实现Resume
-class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
+class CustomVideoView constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
     RelativeLayout(context, attrs, defStyleAttr), View.OnClickListener, MediaPlayer.OnPreparedListener,
     MediaPlayer.OnInfoListener, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener,
     MediaPlayer.OnBufferingUpdateListener, TextureView.SurfaceTextureListener{
@@ -44,6 +43,15 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
         context.getSystemService(Context.AUDIO_SERVICE) as AudioManager //音量控制器
     private var mVideoSurface: Surface? = null //真正显示帧数据的类
 
+    /**
+     * Data
+     */
+    private var mUrl: String? = null
+    private var mFrameURI: String = ""
+    private var mIsMute = false
+    private val mScreenWidth = context.displayMetrics.widthPixels
+    private val mVideoHeight = (mScreenWidth * SDKVersion.VIDEO_HEIGHT_PERCENT).toInt()
+
 
     init {
         initView()
@@ -51,7 +59,7 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
     }
 
     private fun registerBroadcastReceiver() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun initView() {
@@ -61,7 +69,7 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
         mVideoView.keepScreenOn = true
         mVideoView.surfaceTextureListener = this
 
-        layoutParams = LayoutParams(mScreenWidth, mDestationHeight)
+        layoutParams = LayoutParams(mScreenWidth, mVideoHeight)
 
         mBtnMiniPlay = findViewById(R.id.xadsdk_small_play_btn)
         mFullBtn = findViewById(R.id.xadsdk_to_full_view)
@@ -86,19 +94,7 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
 
 
 
-    /**
-     * Data
-     */
-    private var mUrl: String? = null
-    private var mFrameURI: String = ""
-    private var mIsMute = false
-    private val mScreenWidth by lazy {
-        mContext.displayMetrics.widthPixels
-    }
 
-    private val mDestationHeight by lazy {
-        (mScreenWidth * SDKVersion.VIDEO_HEIGHT_PERCENT).toInt()
-    }
 
     /**
      * Status状态保护
@@ -130,7 +126,7 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
     override fun onPrepared(mp: MediaPlayer?) {
         mMediaPlayer = mp
         mMediaPlayer?.apply {
-            this.setOnBufferingUpdateListener(this@CutomVideoView)
+            this.setOnBufferingUpdateListener(this@CustomVideoView)
             mCurrentCount = 0
             mListener?.onAdVideoLoadSuccess()
             decideCanPlay()
@@ -140,43 +136,68 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
 
 
     override fun onInfo(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return true
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        setCurrentState(STATE_ERRO)
+        if (mCurrentCount >= LOAD_TOTAL_COUNT) {
+            mListener?.onAdVideoLoadFailed()
+            showPauseOrPlayerView(false)
+        }
+
+        stop()
+
+        return true // 返回true表示我们自己处理异常，Android系统就不会处理了
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mListener?.onAdVideoLoadComplete()
+
+        mIsRealCompelete = true
+        mIsRealPause = true
+        playBack()
     }
 
     override fun onBufferingUpdate(mp: MediaPlayer?, percent: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return true
     }
 
     override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mVideoSurface = Surface(surface)
+        load()
     }
 
-    override fun onClick(v: View?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.xadsdk_to_full_view -> load()
+        }
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
+
+        if (visibility == View.VISIBLE && mPlayerState == STATE_PAUSE) {
+            if (mIsRealPause || mIsRealCompelete) {
+                pause()
+            } else {
+                decideCanPlay()
+            }
+        }
     }
 
     fun load(){
@@ -194,22 +215,60 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
     }
 
     fun pause() {
+        if (mPlayerState != STATE_PLAYING) {
+            return
+        }
 
+        setCurrentState(STATE_PAUSE)
+        if (isPlaying()) {
+            mMediaPlayer!!.pause()
+        }
+        showPauseOrPlayerView(false)
+        mTimerCount.start()
     }
 
     fun resume() {
+        if (mPlayerState != STATE_PAUSE) {
+            return
+        }
 
+        if (!isPlaying()) {
+            entryResumeState()  //设置播放中的状态值
+            showPauseOrPlayerView(true)
+            mMediaPlayer!!.start()
+            mTimerCount.start()
+        } else {
+
+        }
+    }
+
+    private fun entryResumeState() {
+        setCurrentState(STATE_PLAYING)
+        mIsRealCompelete = false
+        mIsRealPause = false
+    }
+
+    private fun isPlaying(): Boolean {
+        mMediaPlayer ?: return false
+        return mMediaPlayer!!.isPlaying
     }
 
     /**
      * 播放完成后回到初始状态
      */
     fun playBack() {
-
+        setCurrentState(STATE_PAUSE)
+        mTimerCount.cancel()
+        mMediaPlayer?.run {
+            this.setOnSeekCompleteListener(null)
+            this.seekTo(0)
+            this.pause()
+        }
+        showPauseOrPlayerView(false)
     }
 
     fun stop() {
-        mMediaPlayer?.apply {
+        mMediaPlayer?.run {
             this.reset()
             this.setOnSeekCompleteListener(null)
             this.stop()
@@ -223,7 +282,7 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
             mCurrentCount++
             load()
         } else {
-            showPauseView(false)
+            showPauseOrPlayerView(false)
         }
     }
 
@@ -242,8 +301,10 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
 
     private fun decideCanPlay() {
         if (Utils.getVisiblePercent(mParentContainer) > SDKVersion.VIDEO_SCREEN_PERCENT) {
+            setCurrentState(STATE_PAUSE)
             resume()
         } else {
+            setCurrentState(STATE_PLAYING)
             pause()
         }
     }
@@ -262,7 +323,10 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
         loadFrameImage()
     }
 
-    private fun showPauseView(show: Boolean) {
+    /**
+     * True : Pause;  False : Play
+     */
+    private fun showPauseOrPlayerView(show: Boolean) {
         mFullBtn.visibility = if (show) View.VISIBLE else View.GONE
         mBtnMiniPlay.visibility = if (show) View.GONE else View.VISIBLE
         mLoadingBar.clearAnimation()
@@ -319,6 +383,10 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
         return player
     }
 
+    fun setDataSource(url: String) {
+        mUrl = url
+    }
+
 
     interface ADFrameImageLoadListener {
         fun onStartFrameLoad(url: String, listener: (Bitmap?) -> Unit)
@@ -355,17 +423,17 @@ class CutomVideoView constructor(context: Context, attrs: AttributeSet?, defStyl
         override fun onReceive(context: Context, intent: Intent) {
             //主动锁屏时 pause, 主动解锁屏幕时，resume
             when (intent.action) {
-//                Intent.ACTION_USER_PRESENT -> if (playerState == STATE_PAUSING) {
-//                    if (mIsRealPause) {
-//                        //手动点的暂停，回来后还暂停
-//                        pause()
-//                    } else {
-//                        decideCanPlay()
-//                    }
-//                }
-//                Intent.ACTION_SCREEN_OFF -> if (playerState == STATE_PLAYING) {
-//                    pause()
-//                }
+                Intent.ACTION_USER_PRESENT -> if (mPlayerState == STATE_PAUSE) {
+                    if (mIsRealPause) {
+                        //手动点的暂停，回来后还暂停
+                        pause()
+                    } else {
+                        decideCanPlay()
+                    }
+                }
+                Intent.ACTION_SCREEN_OFF -> if (mPlayerState == STATE_PLAYING) {
+                    pause()
+                }
             }
         }
     }

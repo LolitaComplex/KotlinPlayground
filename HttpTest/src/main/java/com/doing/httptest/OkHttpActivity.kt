@@ -43,9 +43,9 @@ class OkHttpActivity : AppCompatActivity() {
             .build()
 
         OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(1, TimeUnit.SECONDS)
+            .writeTimeout(1, TimeUnit.SECONDS)
+            .readTimeout(1, TimeUnit.SECONDS)
             .cache(Cache(File(this.application.cacheDir, "HttpTestCache"), 10 * 1024 * 1024))
             .addNetworkInterceptor(interceptor)
 //            .addInterceptor(httpInterceptor)
@@ -63,7 +63,6 @@ class OkHttpActivity : AppCompatActivity() {
                 .url(HOST + "method/requestGet")
                 .get().build()
             val call = mOkHttpClient.newCall(request)
-            call.execute()
             call.enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e(TAG, "网络错误", e)
