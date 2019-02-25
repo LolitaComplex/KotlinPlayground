@@ -1,1 +1,1 @@
-include ':HttpTest', ':PermisstionTest', ':JavaVirtualMachine', ':MediaSDK'
+include ':HttpTest', ':PermisstionTest', ':JavaVirtualMachine', ':MediaSDK', ':ArchitectureComponents'
