@@ -1,6 +1,8 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
 
 android {
     compileSdkVersion project.compileSdkVersion
@@ -43,10 +45,10 @@ dependencies {
     implementation commonDependencies.retrofitScalars
     implementation commonDependencies.retrofitRx
 
-    api commonDependencies.room
-    api commonDependencies.roomRxJava
-    annotationProcessor commonDependencies.roomAnnotation
-    kapt commonDependencies.roomAnnotation
+//    api commonDependencies.room
+//    api commonDependencies.roomRxJava
+//    annotationProcessor commonDependencies.roomAnnotation
+//    kapt commonDependencies.roomAnnotation
 
     implementation('com.github.ihsanbal:LoggingInterceptor:3.0.0') {
         exclude group: 'org.json', module: 'json'

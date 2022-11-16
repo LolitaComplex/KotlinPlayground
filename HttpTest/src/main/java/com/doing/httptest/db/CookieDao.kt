@@ -1,35 +1,34 @@
 package com.doing.httptest.db
 
-import android.arch.persistence.room.*
-import io.reactivex.Flowable
 import io.reactivex.Single
 
-@Dao
+
+//@Dao
 interface CookieDao{
 
-    @Query("SELECT * FROM cookie LIMIT 1")
+//    @Query("SELECT * FROM cookie LIMIT 1")
     fun get(): CookieDb?
 
     /**
      * return: 删除的行数
      */
-    @Delete
+//    @Delete
     fun remove(user: CookieDb? = get()): Int
 
     /**
      * return: rowId
      */
-    @Insert
+//    @Insert
     fun add(user: CookieDb): Long
 
     /**
      * return: 影响的行数
      */
-    @Update
+//    @Update
     fun update(user: CookieDb): Int
 
 
-    @Query("SELECT * FROM cookie LIMIT 1")
+//    @Query("SELECT * FROM cookie LIMIT 1")
     fun getRx(): Single<MutableList<CookieDb>>
 
 }

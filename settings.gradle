@@ -1,1 +1,3 @@
 include ':HttpTest', ':PermisstionTest', ':JavaVirtualMachine', ':MediaSDK', ':ArchitectureComponents'
+include ':ClassLoaderGround'
+include ':WebViewGround'

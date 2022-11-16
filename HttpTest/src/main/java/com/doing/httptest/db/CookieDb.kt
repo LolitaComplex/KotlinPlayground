@@ -1,9 +1,9 @@
 package com.doing.httptest.db
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+//import android.arch.persistence.room.Entity
+//import android.arch.persistence.room.PrimaryKey
 
-@Entity(tableName = "cookie")
+//@Entity(tableName = "cookie")
 class CookieDb (id: String?, name: String, value: String, expiresAt: Long, domain: String, path: String,
                 secure: Boolean, httpOnly: Boolean, persistent: Boolean, hostOnly: Boolean){
 
@@ -11,7 +11,7 @@ class CookieDb (id: String?, name: String, value: String, expiresAt: Long, domai
                 secure: Boolean, httpOnly: Boolean, persistent: Boolean, hostOnly: Boolean):
             this(null, name, value, expiresAt, domain, path, secure, httpOnly, persistent, hostOnly)
 
-    @PrimaryKey(autoGenerate=true)
+//    @PrimaryKey(autoGenerate=true)
     var id  = id
 
     val name = name

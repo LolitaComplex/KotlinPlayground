@@ -74,13 +74,22 @@ class OkHttpActivity : AppCompatActivity() {
 
         // GET Picture
         mBtnGetPic.setOnClickListener {
-            val request = Request.Builder().url(HOST + "static/timg.jpg").get().cacheControl(CacheControl.FORCE_NETWORK).build()
+//            val request = Request.Builder().url("https://srcfiles-1301875640.cos.accelerate.myqcloud.com/movie/cn/91/91CM-166/91CM-166.png")
+            val request = Request.Builder().url("https://m4a.inke.cn/yeet/MTY0MzAxMDIwMjc0NiM2NjQjanBn.jpg")
+                .get().cacheControl(CacheControl.FORCE_NETWORK).build()
             mOkHttpClient.newCall(request).enqueue(object : Callback{
                 override fun onFailure(call: Call, e: IOException) {
                     Log.e(TAG, "网络错误 getPic", e)
                 }
 
-                override fun onResponse(call: Call, response: Response) {}
+                override fun onResponse(call: Call, response: Response) {
+                    Log.d(TAG, "Response: ${response.body()}")
+                    val body = response.body() ?: return
+                    val stream = body.byteStream()
+                    Log.d(TAG, "Stream available: ${stream.available()}") // 0
+                    stream.read()
+                    Log.d(TAG, "Stream available: ${stream.available()}") // size
+                }
             })
         }
 
