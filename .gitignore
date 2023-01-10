@@ -11,4 +11,6 @@
 .externalNativeBuild
 /gradlew
 .idea/
-.idea/*
+.idea/codeStyles/Project.xml
+.idea/misc.xml
+
