@@ -1,4 +1,4 @@
-package com.doing.androidx.base
+package com.doing.androidx.mvp.base
 
 import android.os.Bundle
 import android.util.Log
@@ -6,7 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-open class BaseActivity<IPresenter : BasePresenter<out BaseView>> : AppCompatActivity(), BaseView {
+open class MvpBaseActivity<IPresenter : BasePresenter<out BaseView>> : AppCompatActivity(),
+    BaseView {
 
     protected lateinit var mPresenter: IPresenter
 

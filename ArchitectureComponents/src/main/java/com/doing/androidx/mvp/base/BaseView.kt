@@ -1,4 +1,4 @@
-package com.doing.androidx.base
+package com.doing.androidx.mvp.base
 
 interface BaseView {
 
