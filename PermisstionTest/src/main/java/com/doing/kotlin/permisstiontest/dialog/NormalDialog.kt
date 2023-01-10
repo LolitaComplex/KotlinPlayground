@@ -7,8 +7,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.support.annotation.ColorInt
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentManager
+import androidx.core.app.DialogFragment
+import androidx.core.app.FragmentManager
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.widget.TextView

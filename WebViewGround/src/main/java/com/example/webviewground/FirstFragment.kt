@@ -5,7 +5,7 @@ import android.content.Intent
 import android.net.TrafficStats
 import android.net.http.SslError
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.core.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View

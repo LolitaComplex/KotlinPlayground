@@ -1,7 +1,8 @@
 package com.doing.androidx.base
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
@@ -16,15 +17,19 @@ open class BaseActivity<IPresenter : BasePresenter<out BaseView>> : AppCompatAct
 
         if (genericSuperclass is ParameterizedType) {
             val arguments: Array<Type> = genericSuperclass.actualTypeArguments
-            if (arguments[0] is BasePresenter<*>) {
+            if (arguments[0] is Class<*>) {
                 try {
-                    mPresenter = arguments[0].javaClass.newInstance() as IPresenter
+                    val presenter = (arguments[0] as Class<*>).newInstance()
+                    if (presenter is BasePresenter<*>) {
+                        mPresenter = presenter as IPresenter
+                    }
                 } catch (e: Exception) {
+                    Log.e("Doing", "Message: ${e.message}", e)
                 }
             }
         }
 
-//        mPresenter.attach(this)
+//        mPresenter.attach()
     }
 
     override fun isAlive(): Boolean {
