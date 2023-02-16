@@ -1,4 +1,4 @@
-package com.doing.androidx.mvvm;
+package com.doing.androidx.mvvm.model;
 
 public class User {
 

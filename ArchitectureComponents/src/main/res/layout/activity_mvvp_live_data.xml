@@ -7,7 +7,16 @@
 
         <variable
             name="user"
-            type="com.doing.androidx.mvvm.User" />
+            type="com.doing.androidx.mvvm.model.User" />
+
+        <variable
+            name="age"
+            type="java.lang.Integer" />
+
+        <variable
+            name="name"
+            type="java.lang.String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

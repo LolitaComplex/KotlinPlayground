@@ -3,7 +3,7 @@ package com.doing.androidx.mvvm.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.doing.androidx.mvvm.User
+import com.doing.androidx.mvvm.model.User
 
 class LiveDataViewModel : ViewModel() {
 

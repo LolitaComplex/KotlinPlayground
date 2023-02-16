@@ -7,6 +7,7 @@ import android.widget.Button
 import com.doing.androidx.mvp.MvpActivity
 import com.doing.androidx.mvvm.MvvmDataBindingActivity
 import com.doing.androidx.mvvm.MvvmLiveDataActivity
+import com.doing.androidx.postview.PostViewActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.mBtnMvvmLiveData).setOnClickListener {
             startActivity(Intent(this, MvvmLiveDataActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.mBtnMvvmPostView).setOnClickListener {
+            startActivity(Intent(this, PostViewActivity::class.java))
         }
     }
 }

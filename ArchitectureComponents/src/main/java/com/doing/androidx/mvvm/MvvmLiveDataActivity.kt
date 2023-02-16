@@ -14,7 +14,7 @@ import com.doing.androidx.mvvm.viewmodel.LiveDataViewModel
 class MvvmLiveDataActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mvvp_live_data)
+//        setContentView(R.layout.activity_mvvp_live_data)
 
         val binding: ActivityMvvpLiveDataBinding = DataBindingUtil.setContentView(
             this, R.layout.activity_mvvp_live_data)
@@ -26,16 +26,13 @@ class MvvmLiveDataActivity : AppCompatActivity() {
         }
 
         binding.mEtText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 Log.d("Doing", "LiveData Change: ${liveData.value?.userName}")
             }
 
-            override fun afterTextChanged(s: Editable?) {
-            }
-
+            override fun afterTextChanged(s: Editable?) {}
         })
     }
 }

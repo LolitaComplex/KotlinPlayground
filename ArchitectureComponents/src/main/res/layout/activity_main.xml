@@ -38,6 +38,18 @@
         app:layout_constraintTop_toBottomOf="@id/mBtnMvvmDatabinding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/mBtnMvvmPostView"
+        android:layout_marginBottom="30dp"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/mBtnMvvmPostView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DrawThreadView"
+        app:layout_constraintTop_toBottomOf="@id/mBtnMvvmLiveData"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:textAllCaps="false" />
 

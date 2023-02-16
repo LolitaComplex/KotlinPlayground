@@ -1,8 +1,7 @@
 package com.doing.androidx.mvvm.viewmodel
 
 import androidx.databinding.ObservableField
-import com.doing.androidx.mvp.model.UserInfo
-import com.doing.androidx.mvvm.User
+import com.doing.androidx.mvvm.model.User
 
 class MvvmViewModel {
 
