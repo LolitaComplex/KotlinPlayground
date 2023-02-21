@@ -8,9 +8,25 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".AppApplication"
         android:theme="@style/AppTheme">
+
+        <service android:name=".aidl.BigBitmapService"
+            android:exported="false"
+            android:process=":remote"
+            />
+
+        <activity
+            android:name=".aidl.BitmapRemoteActivity"
+            android:exported="false"
+            android:process=":remote"
+            />
+        <activity
+            android:name=".aidl.BigBitmapActivity"
+            android:exported="false" />
         <activity
             android:name=".postview.PostViewActivity"
+            android:theme="@style/Theme.AppCompat.DayNight"
             android:exported="false" />
         <activity
             android:name=".mvvm.MvvmLiveDataActivity"

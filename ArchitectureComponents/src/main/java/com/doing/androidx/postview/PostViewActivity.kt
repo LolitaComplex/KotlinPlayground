@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.doing.androidx.AppApplication
 import com.doing.androidx.R
 
 class PostViewActivity : AppCompatActivity() {
@@ -77,7 +78,7 @@ class PostViewActivity : AppCompatActivity() {
     }
 
     private fun createRecyclerView() {
-        MyLayoutInflater(this).inflate(R.layout.layout_async_recycler,
+        MyLayoutInflater(AppApplication.getInstance()).inflate(R.layout.layout_async_recycler,
             threadView, true)
         val recyclerView = threadView.findViewById<RecyclerView>(R.id.mRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this,

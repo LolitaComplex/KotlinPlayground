@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ASMIdeaPluginConfiguration">
+    <asm skipDebug="false" skipFrames="false" skipCode="false" expandFrames="false" />
+    <groovy codeStyle="LEGACY" />
+  </component>
   <component name="ASMPluginConfiguration">
     <asm skipDebug="false" skipFrames="false" skipCode="false" expandFrames="false" />
     <groovy codeStyle="LEGACY" />
@@ -7,7 +11,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/ArchitectureComponents/src/main/res/layout/activity_big_bitmap.xml" value="0.20652173913043478" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/ArchitectureComponents/src/main/res/layout/activity_bitmap_remote.xml" value="0.27395833333333336" />
         <entry key="..\:/AppCache/Android/KoltinPlayGround/ArchitectureComponents/src/main/res/layout/activity_main.xml" value="0.26875" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/ArchitectureComponents/src/main/res/layout/activity_mvvm.xml" value="0.27395833333333336" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/ArchitectureComponents/src/main/res/layout/activity_mvvp_live_data.xml" value="0.15579710144927536" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/ArchitectureComponents/src/main/res/layout/activity_post_view.xml" value="0.21666666666666667" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/ArchitectureComponents/src/main/res/layout/fragment_post_view.xml" value="0.15989583333333332" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/ArchitectureComponents/src/main/res/layout/layout_async_recycler.xml" value="0.20652173913043478" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/ArchitectureComponents/src/main/res/layout/layout_async_view.xml" value="0.15989583333333332" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/WebViewGround/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/WebViewGround/src/main/res/layout/content_main.xml" value="0.1" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/WebViewGround/src/main/res/layout/content_next.xml" value="0.1" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/WebViewGround/src/main/res/layout/fragment_first.xml" value="0.1" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/WebViewGround/src/main/res/layout/fragment_first2.xml" value="0.1" />
+        <entry key="..\:/AppCache/Android/KoltinPlayGround/WebViewGround/src/main/res/layout/fragment_second2.xml" value="0.1" />
       </map>
     </option>
   </component>
