@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+
     @MethodTrace
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +42,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, BigBitmapActivity::class.java))
         }
 
-        Choreographer.getInstance().postFrameCallback {
-            //..
-            Choreographer.getInstance().postFrameCallback..
-        }
+        NetworkUtils.getNetStats(this)
     }
-
-
 }

@@ -7,15 +7,19 @@ import android.content.ServiceConnection
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
+import android.util.TimeUtils
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.LayoutInflaterCompat
 import com.doing.androidx.R
 import kotlinx.android.synthetic.main.activity_big_bitmap.*
 import java.lang.RuntimeException
+import java.util.concurrent.TimeUnit
 
 class BigBitmapActivity : AppCompatActivity() {
 
@@ -24,7 +28,6 @@ class BigBitmapActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         LayoutInflaterCompat.setFactory2(layoutInflater, object : LayoutInflater.Factory2 {
             override fun onCreateView(
                 parent: View?,
@@ -43,6 +46,8 @@ class BigBitmapActivity : AppCompatActivity() {
                 return delegate.createView(null, name, context, attrs)
             }
         })
+
+        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_big_bitmap)
         val exception = RuntimeException()
         exception.stackTrace.forEach { element ->
@@ -105,5 +110,11 @@ class BigBitmapActivity : AppCompatActivity() {
                 Log.e(TAG, "big image binder", e)
             }
         }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            Log.d("Doing", "this Activity: ${this.javaClass.canonicalName}")
+        }, TimeUnit.SECONDS.toMicros(20))
     }
+
+
 }
