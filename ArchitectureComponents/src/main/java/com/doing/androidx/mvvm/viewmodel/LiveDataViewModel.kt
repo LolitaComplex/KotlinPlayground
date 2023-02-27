@@ -7,8 +7,12 @@ import com.doing.androidx.mvvm.model.User
 
 class LiveDataViewModel : ViewModel() {
 
-    fun refreshUserInfo(): LiveData<User> {
-        return MutableLiveData<User>().apply {
+    private val mutableLiveData by lazy {
+        MutableLiveData<User>()
+    }
+
+    fun refreshUserInfo(): MutableLiveData<User> {
+        return mutableLiveData.apply {
             postValue(User().apply {
                 nick = "Joker"
                 userName = "Archer"

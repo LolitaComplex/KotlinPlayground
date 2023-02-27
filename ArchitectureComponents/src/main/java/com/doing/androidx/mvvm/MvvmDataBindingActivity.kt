@@ -5,20 +5,23 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.doing.androidx.R
 import com.doing.androidx.databinding.ActivityMvvmDatabindingBinding
 import com.doing.androidx.mvvm.viewmodel.MvvmViewModel
 
-class MvvmDataBindingActivity : AppCompatActivity() {
+class MvvmDataBindingActivity : AppCompatActivity(), View.OnClickListener {
+
+    lateinit var viewModel: MvvmViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mvvm_databinding)
+        val binding: ActivityMvvmDatabindingBinding = DataBindingUtil.setContentView(
+            this, R.layout.activity_mvvm_databinding
+        )
 
-        val binding : ActivityMvvmDatabindingBinding = DataBindingUtil.setContentView(
-            this, R.layout.activity_mvvm_databinding)
-
-        val viewModel = MvvmViewModel()
+        viewModel = MvvmViewModel()
         binding.viewModel = viewModel
         viewModel.refreshUserInfo()
 
@@ -34,5 +37,10 @@ class MvvmDataBindingActivity : AppCompatActivity() {
             }
 
         })
+        binding.listener = this
+    }
+
+    override fun onClick(v: View) {
+        viewModel.refreshUserInfo()
     }
 }

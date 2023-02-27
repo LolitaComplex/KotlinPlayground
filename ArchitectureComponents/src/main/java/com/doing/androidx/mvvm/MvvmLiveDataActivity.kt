@@ -5,13 +5,17 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.doing.androidx.R
 import com.doing.androidx.databinding.ActivityMvvpLiveDataBinding
 import com.doing.androidx.mvvm.viewmodel.LiveDataViewModel
 
-class MvvmLiveDataActivity : AppCompatActivity() {
+class MvvmLiveDataActivity : AppCompatActivity(), View.OnClickListener {
+
+    private lateinit var model: LiveDataViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_mvvp_live_data)
@@ -19,7 +23,7 @@ class MvvmLiveDataActivity : AppCompatActivity() {
         val binding: ActivityMvvpLiveDataBinding = DataBindingUtil.setContentView(
             this, R.layout.activity_mvvp_live_data)
 
-        val model = ViewModelProvider(this).get(LiveDataViewModel::class.java)
+        model = ViewModelProvider(this).get(LiveDataViewModel::class.java)
         val liveData = model.refreshUserInfo()
         liveData.observe(this) { user ->
             binding.user = user
@@ -34,5 +38,10 @@ class MvvmLiveDataActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {}
         })
+        binding.listener = this
+    }
+
+    override fun onClick(v: View?) {
+        model.refreshUserInfo()
     }
 }
