@@ -16,6 +16,7 @@ import android.util.TimeUtils
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.view.LayoutInflaterCompat
+import com.doing.androidx.OnActivityShowCallback
 import com.doing.androidx.R
 import kotlinx.android.synthetic.main.activity_big_bitmap.*
 import java.lang.RuntimeException
@@ -114,6 +115,14 @@ class BigBitmapActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             Log.d("Doing", "this Activity: ${this.javaClass.canonicalName}")
         }, TimeUnit.SECONDS.toMicros(20))
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val binder = intent.getBundleExtra("binder")
+            ?.getBinder("callback") ?: return
+        val callback = OnActivityShowCallback.Stub.asInterface(binder)
+        callback.callback()
     }
 
 

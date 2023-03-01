@@ -47,14 +47,22 @@ class MainActivity : AppCompatActivity(), Runnable {
         }
 
         mBtnBigBitmap.setOnClickListener {
-            startActivity(Intent(this, BigBitmapActivity::class.java))
+            startActivity(Intent(this, BigBitmapActivity::class.java).apply {
+                putExtra("binder", Bundle().apply {
+                    putBinder("callback", object : OnActivityShowCallback.Stub() {
+                        override fun callback() {
+                            showMemoryInfo()
+                        }
+                    })
+                })
+            })
         }
 
-//        NetworkUtils.getNetStats(this)
-
-
         showMemoryInfo()
-        handler.postDelayed(this, 5 * 1000)
+
+
+//        NetworkUtils.getNetStats(this)
+//        handler.postDelayed(this, 5 * 1000)
     }
 
     private fun showMemoryInfo() {
@@ -69,6 +77,7 @@ class MainActivity : AppCompatActivity(), Runnable {
     }
 
     override fun run() {
+
         buffer.add(ByteArray(1024 * 1024 * 50))
         showMemoryInfo();
         handler.postDelayed(this, TimeUnit.SECONDS.toMillis(10))
