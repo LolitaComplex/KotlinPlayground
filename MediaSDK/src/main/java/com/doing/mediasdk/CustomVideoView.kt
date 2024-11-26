@@ -69,7 +69,7 @@ class CustomVideoView constructor(context: Context, attrs: AttributeSet?, defSty
         mVideoView.keepScreenOn = true
         mVideoView.surfaceTextureListener = this
 
-        layoutParams = LayoutParams(mScreenWidth, mVideoHeight)
+        layoutParams = ViewGroup.LayoutParams(mScreenWidth, mVideoHeight)
 
         mBtnMiniPlay = findViewById(R.id.xadsdk_small_play_btn)
         mFullBtn = findViewById(R.id.xadsdk_to_full_view)

@@ -3,9 +3,9 @@ package com.doing.kotlin.permisstiontest
 import android.Manifest
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_easy_permission.*
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions

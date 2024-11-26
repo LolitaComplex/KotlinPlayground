@@ -1,13 +1,14 @@
 package com.doing.httptest
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.doing.httptest.api.Api
 import com.doing.httptest.entity.BodyClass
 import com.doing.httptest.manager.IOUtils
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
+import com.tbruyelle.rxpermissions2.BuildConfig
 import kotlinx.android.synthetic.main.activity_retrofit.*
 import okhttp3.*
 import okhttp3.internal.platform.Platform

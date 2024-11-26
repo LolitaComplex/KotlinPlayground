@@ -1,8 +1,8 @@
 package com.doing.httptest
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.doing.httptest.manager.HttpDownloadManager
 import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor

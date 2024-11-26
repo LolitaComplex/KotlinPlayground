@@ -3,8 +3,10 @@ package jvm.doing.com;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.jetbrains.anko.AnkoComponent;
 
 import java.io.InputStream;

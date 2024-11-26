@@ -1,8 +1,8 @@
 package jvm.doing.com
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import jvm.doing.com.proxy.Food
 import jvm.doing.com.proxy.Person
 import jvm.doing.com.proxy.PersonProxy

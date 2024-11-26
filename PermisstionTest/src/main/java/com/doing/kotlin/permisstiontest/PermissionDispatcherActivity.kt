@@ -3,9 +3,9 @@ package com.doing.kotlin.permisstiontest
 import android.Manifest
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.doing.kotlin.permisstiontest.dialog.NormalDialog
 import kotlinx.android.synthetic.main.activity_permission_dispatcher.*
 import permissions.dispatcher.*

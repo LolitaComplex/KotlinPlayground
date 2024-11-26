@@ -1,14 +1,14 @@
 package com.example.webviewground
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.webviewground.databinding.ActivityNextBinding
+import com.google.android.material.snackbar.Snackbar
 
 class NextActivity : AppCompatActivity() {
 

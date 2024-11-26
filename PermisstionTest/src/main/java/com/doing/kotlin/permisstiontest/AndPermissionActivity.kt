@@ -4,10 +4,10 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.doing.kotlin.permisstiontest.dialog.NormalDialog
 import com.yanzhenjie.permission.AndPermission
 import com.yanzhenjie.permission.RequestExecutor
